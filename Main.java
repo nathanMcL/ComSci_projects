@@ -1,29 +1,41 @@
-package permutationCombination;
+package expectedValue;
 
+import java.io.*;
+
+
+//Java code to calculate expected
+//value of an array
 public class Main 
 {
 
 	public static void main(String[] args) 
 	{
-	int n = 15, r = 4, comb, per;
-	per = factorial(n) / factorial(n-r);
-	System.out.println("Permutation: " + per);
-	comb = factorial(n) / (factorial(r) * factorial(n-r));
-	System.out.println("Combination: " + comb);
-				
-	}
+		float expect, n = 8f;
+		float a[] = { 1f, 2f, 3f,
+					   4f, 5f, 6f, 7f, 8f };
+		
+		//function for calculating expectation
+		expect = calc_Expectation(a, n);
+		
+		//Display expectation of given array
+		System.out.println("Expectation of array E(X) is: "
+										+ expect);
+		}
 
-		static int factorial(int n)
-		{
-			int fact =1;
-			int i = 1;
-			while(i <= n)
-			{
-				fact *= i;
-				i++;
-			}
-			return fact;
-			
+	private static float calc_Expectation(float[] a, float n) 
+	{
+		//variable prb is probability of each
+		//element which is same for each element
+		float prb = (1 /n);
+		
+		//calculate expectation overall
+		float sum = 0;
+		for (int i = 0; i < n ; i++)
+			sum += a[i] * prb;
+		
+		//return expectation as sum
+		return sum;
 	}
-
 }
+
+
