@@ -1,5 +1,5 @@
-#this web browser program PyQt5 is inop. Would like to resolve.
-# Have searched solutions, resolved all red squiggles. still now browser
+#resolved issue preventing the browser from loading (6/9/23)
+# 
 
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
