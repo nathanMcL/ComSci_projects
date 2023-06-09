@@ -1,5 +1,5 @@
 #resolved issue preventing the browser from loading (6/9/23)
-# 
+# buttons do not function: reload, back, forward, home etc 
 
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
