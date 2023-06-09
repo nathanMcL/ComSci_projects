@@ -14,7 +14,7 @@ import sys
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
-        self.browser = PyQt5.QWebEngineView()
+        self.browser = QWebEngineView()
         self.browser.setUrl(QUrl("http://google.com"))
         self.browser.urlChanged.connect(self.update_urlbar)
         self.browser.loadFinished.connect(self.update_title)
