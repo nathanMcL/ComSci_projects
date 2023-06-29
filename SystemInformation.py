@@ -2,6 +2,7 @@
 # Retrieve the Mac Address
 # Monitor the selected port's connection
 # Retrieve the Ip Address of the port
+# Retrieve the Wi-Fi network information
 
 
 import os
@@ -12,22 +13,34 @@ import time
 import platform
 import re, uuid
 from ipaddress import ip_address
+import subprocess
+
 
 my_system = platform.uname()
 
+# Retrieve the CPU System information
 print(f"System: {my_system.system}")
 print(f"Node Name: {my_system.node}")
 print(f"Release: {my_system.release}")
 print(f"Version: {my_system.version}")
 print(f"Machine: {my_system.machine}")
 print(f"Processor: {my_system.processor}")
-
+print()
 # Retrieve the Mac Address
 print("The Mac Address formatted : ", end="")
 print(':'.join(re.findall('..', '%012x' % uuid.getnode())))
 
 # Retrieve the IP Address at selected port
 print(f"IP Address: {ip_address}")
+
+# Retrieve the Internet Network Information
+# Using the check_output() for having the network terminal retrieval
+devices = subprocess.check_output(['netsh', 'wlan', 'show', 'network'])
+# decode it to strings
+devices = devices.decode('ascii')
+devices = devices.replace("\r", "")
+# displaying the information
+print(devices)
 
 FILE = os.path.join(os.getcwd(), "networkinfo.log")
 
@@ -46,7 +59,7 @@ def ping():
         # AF_NET: address family
         # SOCK_STREAM: type for TCP
 
-        host = "8.8.8.8"
+        host = "127.0.0.1"
         port = 777
 
         server_address = (host, port)
