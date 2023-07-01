@@ -6,7 +6,7 @@
 # Retrieve the Wi-Fi network information, 
 # Retrieve the battery percentage, detect if the device is plugged in
 # Retrieve the Network mask/sub-mask IPs
-# Retrieve the all the Hosts under this network
+# Retrieve all the Hosts under this network
 # Retrieve if the Network overlaps another Network
 
 import ipaddress
