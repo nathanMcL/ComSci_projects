@@ -37,7 +37,7 @@ def UBI():
     for i in range(len(binary_list)):
         if binary_list[i] != '':
             decimal_number += int(binary_list[i]) * 2 ** (len(binary_list) - i - 1)
-    if decimal_number == decimal_number:
+    if binary_number == decimal_number:
         print("Hello!", decimal_number)
     else:
         print("The decimal equivalent of the binary number is", decimal_number)
