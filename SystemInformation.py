@@ -29,9 +29,9 @@ my_system = platform.uname()
 # Battery Usage (returns a tuple)
 battery = psutil.sensors_battery()
 # Initialize an IPv4 address
-IP = ipaddress.IPv4Address("192.168.86.233")
+IP = ipaddress.IPv4Address("000.000.00.00")
 # Initialize an IPv4 Network
-network = ipaddress.IPv4Network("192.168.1.0/24")
+network = ipaddress.IPv4Network("000.000.1.0/00")
 
 # Retrieve the CPU System information
 print(f"System: {my_system.system}")
@@ -99,7 +99,7 @@ print('RAM Used (GB):', psutil.virtual_memory()[3]/1000000000)
 print()
 
 #Detects if this network overlaps another network
-print("Overlaps 192.168.1.0/24", network.overlaps(ipaddress.IPv4Network("192.168.1.0/24")))
+print("Overlaps 000.000.1.0/24", network.overlaps(ipaddress.IPv4Network("000.000.1.0/24")))
 
 # creating log file in the current directory
 # ??getcwd?? get current directory,
