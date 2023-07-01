@@ -1,10 +1,15 @@
-# The Purpose of this program is to provide the Operating system information
-# Retrieve the Mac Address
-# Monitor the selected port's connection
-# Retrieve the Ip Address of the port
-# Retrieve the Wi-Fi network information
+# The Purpose of this program is to:
+# Retrieve the Operating system information, 
+# Retrieve the Mac Address, 
+# Monitor the selected port's connection, 
+# Retrieve the Ip Address of the port, 
+# Retrieve the Wi-Fi network information, 
+# Retrieve the battery percentage, detect if the device is plugged in
+# Retrieve the Network mask/sub-mask IPs
+# Retrieve the all the Hosts under this network
+# Retrieve if the Network overlaps another Network
 
-
+import ipaddress
 import os
 import sys
 import socket
@@ -14,9 +19,19 @@ import platform
 import re, uuid
 from ipaddress import ip_address
 import subprocess
+import serial.tools.list_ports
+# Battery Usage
+import psutil
 
+from BatteryUsage import convertTime
 
 my_system = platform.uname()
+# Battery Usage (returns a tuple)
+battery = psutil.sensors_battery()
+# Initialize an IPv4 address
+IP = ipaddress.IPv4Address("192.168.86.233")
+# Initialize an IPv4 Network
+network = ipaddress.IPv4Network("192.168.1.0/24")
 
 # Retrieve the CPU System information
 print(f"System: {my_system.system}")
@@ -26,12 +41,31 @@ print(f"Version: {my_system.version}")
 print(f"Machine: {my_system.machine}")
 print(f"Processor: {my_system.processor}")
 print()
+
 # Retrieve the Mac Address
 print("The Mac Address formatted : ", end="")
 print(':'.join(re.findall('..', '%012x' % uuid.getnode())))
+# Retrieve network Mask
+print("Network mask: ", network.netmask)
+print()
 
 # Retrieve the IP Address at selected port
 print(f"IP Address: {ip_address}")
+# Retrieve the Broadcast Address
+print("Broadcast Address: ", network.broadcast_address)
+# Retrieve the number of IP addresses under this network
+print("Number of hosts under", str(network), ":", network.num_addresses)
+# Retrieve the Subnets of this network
+print("Subnets: ")
+for subnet in network.subnets(prefixlen_diff=2):
+    print(subnet)
+print()
+
+# Check if supplied IP Address is a global or local address
+# True if Global
+print("Is global:", IP.is_global)
+# True if Local
+print("Is link-local:", IP.is_link_local)
 
 # Retrieve the Internet Network Information
 # Using the check_output() for having the network terminal retrieval
@@ -44,6 +78,28 @@ print(devices)
 
 FILE = os.path.join(os.getcwd(), "networkinfo.log")
 
+ports = list(serial.tools.list_ports.comports())
+for p in ports:
+    print(p)
+
+print()
+
+# Battery Usage
+print("Battery percentage : ", battery.percent)
+print("Power plugged in : ", battery.power_plugged)
+# Converting seconds to hh:mm:ss
+print("Battery left : ", convertTime(int(battery.secsleft)))
+
+print()
+# Getting % usage of the Virtual Memory
+print('RAM Used (GB):', psutil.virtual_memory()[2])
+# Getting usage of Virtual Memory in GB
+print('RAM Used (GB):', psutil.virtual_memory()[3]/1000000000)
+
+print()
+
+#Detects if this network overlaps another network
+print("Overlaps 192.168.1.0/24", network.overlaps(ipaddress.IPv4Network("192.168.1.0/24")))
 
 # creating log file in the current directory
 # ??getcwd?? get current directory,
@@ -59,8 +115,8 @@ def ping():
         # AF_NET: address family
         # SOCK_STREAM: type for TCP
 
-        host = "127.0.0.1"
-        port = 777
+        host = "localhost"
+        port = 23132
 
         server_address = (host, port)
         s.connect(server_address)
@@ -184,6 +240,12 @@ def main():
                 # and unavailability time
                 file.write(uptime_message + "\n")
                 file.write(unavailability_time + "\n")
+
+#print()
+# iterate over all the hosts under this network
+#print("Hosts under", str(network), ":")
+#for host in network.hosts():
+#    print(host)
 
 
 main()
