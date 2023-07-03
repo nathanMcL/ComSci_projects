@@ -8,6 +8,7 @@
 # Retrieve the Network mask/sub-mask IPs
 # Retrieve all the Hosts under this network
 # Retrieve if the Network overlaps another Network
+# Retrieve GEO-location- (I don't like how the returned data is all on one line)
 
 import ipaddress
 import os
@@ -22,6 +23,8 @@ import subprocess
 import serial.tools.list_ports
 # Battery Usage
 import psutil
+import json
+import requests
 
 from BatteryUsage import convertTime
 
@@ -32,6 +35,8 @@ battery = psutil.sensors_battery()
 IP = ipaddress.IPv4Address("000.000.00.00")
 # Initialize an IPv4 Network
 network = ipaddress.IPv4Network("000.000.1.0/00")
+# IP address to track
+IP_Address = 'localhost'
 
 # Retrieve the CPU System information
 print(f"System: {my_system.system}")
@@ -48,6 +53,15 @@ print(':'.join(re.findall('..', '%012x' % uuid.getnode())))
 # Retrieve network Mask
 print("Network mask: ", network.netmask)
 print()
+
+# Track IP Address Location
+request_url = 'https://geolocation-db.com/jsonp/' \
+              + IP_Address
+response = requests.get(request_url)
+result = response.content.decode()
+result = result.split("(")[1].strip(")")
+result = json.loads(result)
+print("IP Address Location","\n", result)
 
 # Retrieve the IP Address at selected port
 print(f"IP Address: {ip_address}")
