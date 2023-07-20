@@ -1,6 +1,8 @@
-# The purpose of this program is to communicate with a client
 # To communicate with client input client IP address
-# Send a message to a client...eventually
+# Greet the client
+# Request status from client
+# Prompt follow-up question from a client
+
 import socket
 
 # Create a socket at server side
@@ -16,17 +18,32 @@ server.bind(('localhost', 9999))
 # to the socket
 server.listen(3)
 print('waiting for connections')
+print()
 
 while True:
     client, address = server.accept()
     name = client.recv(1024).decode()
     print("Connected with", address, name)
 
+    # Greeting to a client
     client.send(bytes('Welcome, I am MacN, Your Admin', 'utf-8'))
+    print()
+    # Prompt client for a status respond
+    client.send(bytes('What is your status?', 'utf-8'))
+    # Prompt client with sending error message or follow-up question / response
+    client.send(bytes('What is your issue/error?', 'utf-8'))
 
-    # Send a message to a client
-    #client.send(b"what is your status?")
-    #msg = "Status check"
-    #client.send(msg.encode())
+    # Client Status Message
+    msg = client.recv(1024)
+    while msg:
+        print('Received Status:' + msg.decode())
+        msg = client.recv(1024)
+
+    print()
+    # Client error message or follow-up question / response
+    msg_two = b''
+    while not msg_two.endswith(b'\n'):
+        msg_two = client.recv(1024)
+    print('Send error or follow-up question.' + msg_two.decode())
 
     client.close()
