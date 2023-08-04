@@ -50,8 +50,8 @@ def get_mac_address():
 
 def get_network_info():
     """Retrieves the network information."""
-    network = ipaddress.IPv4Network("192.168.1.0/24")
-    ip_address = ipaddress.ip_address("192.168.86.233")
+    network = ipaddress.IPv4Network("000.000.0.0")
+    ip_address = ipaddress.ip_address("000.000.0.0")
 
     return {
         "network_mask": network.netmask,
