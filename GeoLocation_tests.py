@@ -14,7 +14,7 @@ from ip2geotools.databases.noncommercial import DbIpCity
 from geopy.distance import distance
 
 # Target IP address
-ip_add = "96.120.100.1"
+ip_add = "input ip address"
 
 # Function to print the details of an IP address
 def printdetails(ip):
