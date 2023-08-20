@@ -1,8 +1,6 @@
-# The purpose of this program is to take Latitude and Longitude values and
-# return more data about the given coordinates
-
-# the program works but completely does not.
-# It runs with errors that tell the request was not approved from the geocoders import.
+# The purpose of this program:
+# Promt to enter Latitude and Longitude values
+# Retrieve physical location
 
 from geopy.geocoders import Nominatim
 
