@@ -5,7 +5,7 @@
 # Prompt for server Ip or previous used ip (see #Target Ip)
 # Prompt for your Latitude
 # Prompt for your Longitude
-# Calculates distance between the two Ip addresses
+# Calculates distance between the two Ip addresses *distence is not correct*
 
 # Import necessary modules
 import socket
