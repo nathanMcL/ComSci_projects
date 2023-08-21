@@ -1,6 +1,8 @@
 # The purpose of this program:
 # Checks if ICMP is enabled or disabled
 # Conducts a traceroute from device to target IP
+# Retrieve city / state
+# Retrieve latitude / longitude
 # Checks the time it took for the program to run
 
 import socket
@@ -8,6 +10,7 @@ import sys
 import time
 from scapy.all import *
 from scapy.layers.inet import IP, UDP
+from ip2geotools.databases.noncommercial import DbIpCity
 
 
 # This function checks if ICMP is enabled.
@@ -34,13 +37,19 @@ def traceroute(ip_address):
         # Send the packet and wait for a response for 2 seconds.
         reply = sr1(pkt, verbose=0, timeout=2)
 
-        # If there is no response, print "No response".
+        # If there is no response, print "No response."
         if reply is None:
             print(f"{i}: No response")
 
         # If the response is an ICMP echo reply, print the hop number and the source IP address.
         elif reply.type == 3:
             print(f"{i}: {reply.src}")
+
+            # Retrieve the geolocation of the Ip address.
+            geolocation = DbIpCity.get(reply.src)
+
+            print(f"\n{reply.src}: {geolocation.city}, {geolocation.country}, "
+                  f"\n(Lat: {geolocation.latitude}, Lng: {geolocation.longitude})")
             break
 
         # Otherwise, print the hop number and the source IP address.
