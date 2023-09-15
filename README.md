@@ -1,3 +1,5 @@
 # ComSci_projects
 My Programming Exploration
-Not to sure what to say. I'm sure I can add more in the future.
+
+
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=nathanMcL&layout=donut)](https://github.com/nathanMcL/github-readme-stats)
